@@ -1,0 +1,100 @@
+   3    Порт: 3000
+   4    Auth: Bearer-токен
+   5    Rate-limit: 10/мин на IP для /register и /login
+   6    CORS: localhost + file://; при PUBLIC_TUNNEL=1 — ещё ngrok-домены
+   7    При PUBLIC_TUNNEL=1 дополнительно отдаёт public-test/ как /
+  27 /* Статика картинок подарков — доступна всегда */
+  31     console.log("[gifts] статика: /gifts -> " + _giftsDir);
+  33     console.warn("[gifts] нет папки " + _giftsDir);
+  54    JSON-хранилище
+  80    Миграция
+ 104    Утилиты
+ 154         return res.status(429).json({ error: "Слишком много запросов, подождите " + wait + " с." });
+ 164    Логи
+ 177    Токены
+ 191     if (!m) return res.status(401).json({ error: "Требуется авторизация." });
+ 195     if (!user) return res.status(401).json({ error: "Недействительный токен." });
+ 201    STATUS (публичный)
+ 219             return res.status(400).json({ error: "Заполните все поля." });
+ 221             return res.status(400).json({ error: "Username: 3–24 символа." });
+ 223             return res.status(400).json({ error: "Username: латиница, цифры, _ . -" });
+ 225             return res.status(400).json({ error: "Пароль минимум 6 символов." });
+ 227             return res.status(400).json({ error: "Некорректный email." });
+ 231             return res.status(409).json({ error: "Этот username уже занят." });
+ 233             return res.status(409).json({ error: "Этот email уже зарегистрирован." });
+ 249         res.status(500).json({ error: "Ошибка сервера." });
+ 258             return res.status(400).json({ error: "Введите username и пароль." });
+ 262         if (!user) return res.status(401).json({ error: "Неверный username или пароль." });
+ 265         if (!ok) return res.status(401).json({ error: "Неверный username или пароль." });
+ 272         res.status(500).json({ error: "Ошибка сервера." });
+ 301         if (!user) return res.status(404).json({ error: "Пользователь не найден." });
+ 307             if (dn.length > 32) return res.status(400).json({ error: "Имя до 32 символов." });
+ 311             if (bio.length > 200) return res.status(400).json({ error: "О себе до 200 символов." });
+ 315             if (avatar.length > 2_000_000) return res.status(400).json({ error: "Аватар слишком большой." });
+ 325         res.status(500).json({ error: "Ошибка сервера." });
+ 332     if (!user) return res.status(404).json({ error: "Пользователь не найден." });
+ 361         if (!name) return res.status(400).json({ error: "Название обязательно." });
+ 363             return res.status(400).json({ error: "Название: 2–48 символов." });
+ 367         if (!ownerUser) return res.status(404).json({ error: "Создатель не найден." });
+ 390         res.status(500).json({ error: "Ошибка сервера." });
+ 413         if (!g) return res.status(404).json({ error: "Группа не найдена." });
+ 415             return res.status(403).json({ error: "Только владелец может менять группу." });
+ 419             if (n.length < 2 || n.length > 48) return res.status(400).json({ error: "Название 2–48 символов." });
+ 429         res.status(500).json({ error: "Ошибка сервера." });
+ 437         if (!add) return res.status(400).json({ error: "username обязателен." });
+ 441         if (!g) return res.status(404).json({ error: "Группа не найдена." });
+ 443             return res.status(403).json({ error: "Только владелец может добавлять участников." });
+ 447         if (!addUser) return res.status(404).json({ error: "Пользователь не найден." });
+ 456         res.status(500).json({ error: "Ошибка сервера." });
+ 465         if (!g) return res.status(404).json({ error: "Группа не найдена." });
+ 467             return res.status(400).json({ error: "Владелец не может покинуть." });
+ 473         res.status(500).json({ error: "Ошибка сервера." });
+ 488         if (!text) return res.status(400).json({ error: "text обязателен." });
+ 489         if (text.length > 4000) return res.status(400).json({ error: "Сообщение длиннее 4000 символов." });
+ 490         if (!to && !group) return res.status(400).json({ error: "Нужно указать to или group." });
+ 491         if (to && group) return res.status(400).json({ error: "Нельзя одновременно to и group." });
+ 499             if (!g) return res.status(404).json({ error: "Группа не найдена." });
+ 501                 return res.status(403).json({ error: "Вы не участник." });
+ 503                 return res.status(403).json({ error: "В канале пишет только владелец." });
+ 515         if (!toUser) return res.status(404).json({ error: "Получатель не найден." });
+ 527         res.status(500).json({ error: "Ошибка сервера." });
+ 542         if (!g) return res.status(404).json({ error: "Группа не найдена." });
+ 544             return res.status(403).json({ error: "Вы не участник." });
+ 572     if (!from) return res.status(400).json({ error: "from обязателен." });
+ 587    SHOP: звёзды / премиум-логин / подарки (common + NFT)
+ 592 const PREMIUM_PRICE = 100;    // цена премиум-логина в звёздах
+ 593 const PREMIUM_DAYS  = 30;     // длительность в днях
+ 595 /* Каталог подарков. id, name, emoji, price, kind, gif (для nft) */
+ 597     { id:"rose",        name:"Роза",        emoji:"\u{1F339}", price:5,   kind:"common" },
+ 598     { id:"heart",       name:"Сердце",      emoji:"\u2764\uFE0F", price:5, kind:"common" },
+ 599     { id:"cake",        name:"Торт",        emoji:"\u{1F382}", price:15,  kind:"common" },
+ 600     { id:"rocket",      name:"Ракета",      emoji:"\u{1F680}", price:25,  kind:"common" },
+ 601     { id:"crown",       name:"Корона",      emoji:"\u{1F451}", price:50,  kind:"common" },
+ 602     { id:"diamond",     name:"Алмаз",       emoji:"\u{1F48E}", price:100, kind:"common" },
+ 603     { id:"nft_cat",     name:"NFT-Кот",     emoji:"\u{1F431}", price:150, kind:"nft", gif:"nft_cat.gif" },
+ 604     { id:"nft_star",    name:"NFT-Звезда",  emoji:"\u{1F31F}", price:200, kind:"nft", gif:"nft_star.gif" },
+ 605     { id:"nft_phoenix", name:"NFT-Феникс",  emoji:"\u{1F525}", price:300, kind:"nft", gif:"nft_phoenix.gif" }
+ 612 /* GET /api/shop/catalog — каталог товаров и инфо об оплате */
+ 621 /* GET /api/shop/inventory — инвентарь подарков текущего пользователя */
+ 625     if (!me) return res.status(404).json({ error: "Пользователь не найден." });
+ 633 /* POST /api/shop/buy — купить подарок за звёзды.
+ 634    body: { giftId, to? }  — если to не указан, подарок себе. */
+ 640         if (!gift) return res.status(400).json({ error: "Подарок не найден." });
+ 644         if (!me) return res.status(404).json({ error: "Пользователь не найден." });
+ 647             return res.status(400).json({ error: "Недостаточно звёзд. Нужно " + gift.price + ", у вас " + (me.stars || 0) + ". Пополните у " + SHOP_OWNER_TG + "." });
+ 653             if (!target) return res.status(404).json({ error: "Пользователь-получатель не найден." });
+ 674         res.status(500).json({ error: "Ошибка сервера." });
+ 678 /* POST /api/shop/premium — активировать премиум-логин за звёзды */
+ 683         if (!me) return res.status(404).json({ error: "Пользователь не найден." });
+ 686             return res.status(400).json({ error: "Премиум уже активен." });
+ 689             return res.status(400).json({ error: "Недостаточно звёзд. Нужно " + PREMIUM_PRICE + ", у вас " + (me.stars || 0) + ". Пополните у " + SHOP_OWNER_TG + "." });
+ 700         res.status(500).json({ error: "Ошибка сервера." });
+ 704 /* POST /api/shop/gift — отправить уже купленный подарок другому (из инвентаря) */
+ 709         if (!toRaw || !giftId) return res.status(400).json({ error: "to и giftId обязательны." });
+ 713         if (!me) return res.status(404).json({ error: "Пользователь не найден." });
+ 715         if (!target) return res.status(404).json({ error: "Получатель не найден." });
+ 718         if (idx < 0) return res.status(400).json({ error: "Такого подарка нет в инвентаре." });
+ 730         res.status(500).json({ error: "Ошибка сервера." });
+ 735    TEST PAGE (только при PUBLIC_TUNNEL=1)
+ 743         console.log("[tunnel] public-test включён: / → public-test/index.html");
+ 745         console.warn("[tunnel] PUBLIC_TUNNEL=1, но нет папки public-test/");
